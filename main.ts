@@ -12,7 +12,7 @@ export default class MinimalTheme extends Plugin {
 
     this.addStyle();
 
-    // Watch for system changes to color theme 
+    // Watch for system changes to color theme
 
     let media = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -74,9 +74,9 @@ export default class MinimalTheme extends Plugin {
 
       document.body.classList.toggle('minimal-readable', this.settings.readableLineLength);
       document.body.classList.toggle('minimal-readable-off', !this.settings.readableLineLength);
-  
+
     }
-  
+
     let sidebarUpdate = () => {
       const sidebarEl = document.getElementsByClassName('mod-left-split')[0];
       const ribbonEl = document.getElementsByClassName('side-dock-ribbon')[0];
@@ -84,7 +84,7 @@ export default class MinimalTheme extends Plugin {
         sidebarEl.addClass('theme-dark');
         ribbonEl.addClass('theme-dark');
       } else if (sidebarEl && ribbonEl) {
-        sidebarEl.removeClass('theme-dark'); 
+        sidebarEl.removeClass('theme-dark');
         ribbonEl.removeClass('theme-dark');
       }
     }
@@ -94,7 +94,7 @@ export default class MinimalTheme extends Plugin {
     this.registerEvent(app.workspace.on('css-change', sidebarUpdate));
 
     settingsUpdate();
-    
+
     app.workspace.onLayoutReady(() => {
       sidebarUpdate();
     });
@@ -127,7 +127,7 @@ export default class MinimalTheme extends Plugin {
         this.saveData(this.settings);
         this.setFontSize();
       }
-    }); 
+    });
 
     this.addCommand({
       id: 'toggle-minimal-dark-cycle',
@@ -137,7 +137,7 @@ export default class MinimalTheme extends Plugin {
         this.saveData(this.settings);
         this.updateDarkStyle();
       }
-    });  
+    });
 
     this.addCommand({
       id: 'toggle-minimal-light-cycle',
@@ -396,6 +396,17 @@ export default class MinimalTheme extends Plugin {
     });
 
     this.addCommand({
+      id: 'toggle-minimal-kanagawa-light',
+      name: 'Switch light color scheme to Kanagawa (light)',
+      callback: () => {
+        this.settings.lightScheme = 'minimal-kanagawa-light';
+        this.saveData(this.settings);
+        this.updateLightScheme();
+        this.updateLightStyle();
+      }
+    });
+
+    this.addCommand({
       id: 'toggle-minimal-macos-light',
       name: 'Switch light color scheme to macOS (light)',
       callback: () => {
@@ -532,6 +543,17 @@ export default class MinimalTheme extends Plugin {
       name: 'Switch dark color scheme to Everforest (dark)',
       callback: () => {
         this.settings.darkScheme = 'minimal-everforest-dark';
+        this.saveData(this.settings);
+        this.updateDarkScheme();
+        this.updateDarkStyle();
+      }
+    });
+
+    this.addCommand({
+      id: 'toggle-minimal-kanagawa-dark',
+      name: 'Switch dark color scheme to Kanagawa (dark)',
+      callback: () => {
+        this.settings.darkScheme = 'minimal-kanagawa-dark';
         this.saveData(this.settings);
         this.updateDarkScheme();
         this.updateDarkStyle();
@@ -695,7 +717,7 @@ export default class MinimalTheme extends Plugin {
     if (!el) throw "minimal-theme element not found!";
     else {
       // set the settings-dependent css
-      el.innerText = 
+      el.innerText =
         'body.minimal-theme{'
         + '--font-ui-small:' + this.settings.textSmall + 'px;'
         + '--line-height:' + this.settings.lineHeight + ';'
@@ -762,6 +784,7 @@ export default class MinimalTheme extends Plugin {
       'minimal-dracula-dark',
       'minimal-everforest-dark',
       'minimal-gruvbox-dark',
+      'minimal-kanagawa-dark',
       'minimal-macos-dark',
       'minimal-nord-dark',
       'minimal-notion-dark',
@@ -780,6 +803,7 @@ export default class MinimalTheme extends Plugin {
       'minimal-default-light',
       'minimal-everforest-light',
       'minimal-gruvbox-light',
+      'minimal-kanagawa-light',
       'minimal-macos-light',
       'minimal-nord-light',
       'minimal-notion-light',
@@ -946,6 +970,7 @@ class MinimalSettingTab extends PluginSettingTab {
           .addOption('minimal-catppuccin-light','Catppuccin')
           .addOption('minimal-everforest-light','Everforest')
           .addOption('minimal-gruvbox-light','Gruvbox')
+          .addOption('minimal-kanagawa-light','Kanagawa')
           .addOption('minimal-macos-light','macOS')
           .addOption('minimal-nord-light','Nord')
           .addOption('minimal-notion-light','Notion')
@@ -985,6 +1010,7 @@ class MinimalSettingTab extends PluginSettingTab {
           .addOption('minimal-dracula-dark','Dracula')
           .addOption('minimal-everforest-dark','Everforest')
           .addOption('minimal-gruvbox-dark','Gruvbox')
+          .addOption('minimal-kanagawa-dark','Kanagawa')
           .addOption('minimal-macos-dark','macOS')
           .addOption('minimal-nord-dark','Nord')
           .addOption('minimal-notion-dark','Notion')
